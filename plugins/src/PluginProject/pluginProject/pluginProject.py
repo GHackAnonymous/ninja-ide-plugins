@@ -7,7 +7,6 @@ except ImportError:
     import simplejson as json
 
 from PyQt4.QtGui import QMessageBox
-from PyQt4.QtCore import QString
 from PyQt4.QtCore import Qt
 
 from ninja_ide.core import plugin
@@ -27,7 +26,8 @@ class PluginProject(plugin.Plugin):
         self.explorer_s = self.locator.get_service('explorer')
         # Set a project handler for NINJA-IDE Plugin
         self.explorer_s.set_project_type_handler(PROJECT_TYPE,
-                PluginProjectHandler(self.locator))
+                                                 PluginProjectHandler(self
+                                                 .locator))
 
 
 class PluginProjectHandler(plugin_interfaces.IProjectTypeHandler):
@@ -38,7 +38,7 @@ class PluginProjectHandler(plugin_interfaces.IProjectTypeHandler):
         self.locator = locator
 
     def get_context_menus(self):
-        return (Menu(self.locator), )
+        return Menu(self.locator),
 
     def get_pages(self):
         return [PagePluginProperties(self.locator)]
@@ -51,7 +51,7 @@ class PluginProjectHandler(plugin_interfaces.IProjectTypeHandler):
         path = unicode(page.txtPlace.text())
         if not path:
             QMessageBox.critical(self, self.tr("Incorrect Location"),
-                self.tr("The project couldn\'t be create"))
+                                 self.tr("The project couldn\'t be create"))
             return
         project = {}
         name = unicode(page.txtName.text())
@@ -125,7 +125,7 @@ class PluginProjectHandler(plugin_interfaces.IProjectTypeHandler):
             content += TEMPLATE_PASS_STATMENT
 
         content += TEMPLATE_PLUGIN_FINISH
-        content = QString(content)
+        content = content
         # Create the folder
         file_manager.create_folder(os.path.join(path, module))
         # Create the file
@@ -179,6 +179,6 @@ TEMPLATE_PLUGIN_FINISH = """
         pass
 
     def get_preferences_widget(self):
-        # Return a widget for customize your plugin
+        # Return a widget to customize your plugin
         pass
 """
